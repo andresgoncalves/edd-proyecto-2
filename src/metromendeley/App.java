@@ -5,12 +5,41 @@ package metromendeley;
  * @author Andres
  */
 public class App extends javax.swing.JFrame {
-
+    
+    private static final int HASH_TABLE_SIZE = 16;
+    
+    private final HashTable<Summary> summariesByTitle = new HashTable<>(HASH_TABLE_SIZE);
+    private final HashTable<List<Summary>> summariesByAuthor = new HashTable<>(HASH_TABLE_SIZE);
+    private final HashTable<List<Summary>> summariesByKeyword = new HashTable<>(HASH_TABLE_SIZE);
+    
     /**
      * Creates new form App
      */
     public App() {
         initComponents();
+    }
+    
+    public void registerSummary(Summary summary) {
+        /* Agregar resumen a la tabla principal */
+        summariesByTitle.set(summary.getTitle(), summary);
+        /* Agregar resumen a la tabla indexada por autores */
+        for(String author : summary.getAuthors()) {
+            List<Summary> authorList = summariesByAuthor.get(author);
+            if(authorList == null) {
+                authorList = new List<>();
+                summariesByAuthor.set(author, authorList);
+            }
+            authorList.append(summary);
+        }
+        /* Agregar resumen a la tabla indexada por palabras clave */
+        for(String keyword : summary.getKeywords()) {
+            List<Summary> keywordList = summariesByKeyword.get(keyword);
+            if(keywordList == null) {
+                keywordList = new List<>();
+                summariesByKeyword.set(keyword, keywordList);
+            }
+            keywordList.append(summary);
+        }
     }
 
     /**
