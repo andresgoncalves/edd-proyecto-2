@@ -27,60 +27,85 @@ public class OptionsPanel extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        analizeSummary = new javax.swing.JButton();
+        searchKey = new javax.swing.JButton();
+        searchAuthor = new javax.swing.JButton();
+        exit = new javax.swing.JButton();
+        seleccionar = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(204, 255, 204));
         setLayout(new java.awt.GridBagLayout());
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton1.setText("Analizar Resumen");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 243;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(61, 46, 0, 61);
-        add(jButton1, gridBagConstraints);
-
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton2.setText("Buscar por palabra clave");
+        analizeSummary.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        analizeSummary.setText("Analizar Resumen");
+        analizeSummary.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                analizeSummaryActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 200;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 243;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(46, 46, 0, 61);
-        add(jButton2, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(14, 70, 0, 115);
+        add(analizeSummary, gridBagConstraints);
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton3.setText("Buscar por autor");
+        searchKey.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        searchKey.setText("Buscar por palabra clave");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 246;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 200;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(45, 46, 0, 61);
-        add(jButton3, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(46, 70, 0, 115);
+        add(searchKey, gridBagConstraints);
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton4.setText("Salir del Sistema");
+        searchAuthor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        searchAuthor.setText("Buscar por autor");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 246;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(46, 70, 0, 115);
+        add(searchAuthor, gridBagConstraints);
+
+        exit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        exit.setText("Salir del Sistema");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.ipadx = 253;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(46, 46, 62, 61);
-        add(jButton4, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(46, 70, 37, 115);
+        add(exit, gridBagConstraints);
+
+        seleccionar.setFont(new java.awt.Font("Tekton Pro", 0, 12)); // NOI18N
+        seleccionar.setForeground(new java.awt.Color(0, 0, 0));
+        seleccionar.setText("Seleccione una opción");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(80, 200, 0, 0);
+        add(seleccionar, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void analizeSummaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizeSummaryActionPerformed
+        App.getInstance().showSearchKey();
+    }//GEN-LAST:event_analizeSummaryActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton analizeSummary;
+    private javax.swing.JButton exit;
+    private javax.swing.JButton searchAuthor;
+    private javax.swing.JButton searchKey;
+    private javax.swing.JLabel seleccionar;
     // End of variables declaration//GEN-END:variables
 }
