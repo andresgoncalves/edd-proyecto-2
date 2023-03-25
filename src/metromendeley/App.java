@@ -1,7 +1,11 @@
 package metromendeley;
 
 import java.awt.CardLayout;
+import java.awt.HeadlessException;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -10,6 +14,9 @@ import java.io.File;
 public class App extends javax.swing.JFrame {
     
     private static final int HASH_TABLE_SIZE = 16;
+    
+    private File fileSaved;
+    private Summary summarySaved;
     
     private final HashTable<Summary> summariesByTitle = new HashTable<>(HASH_TABLE_SIZE);
     private final HashTable<List<Summary>> summariesByAuthor = new HashTable<>(HASH_TABLE_SIZE);
@@ -44,11 +51,37 @@ public class App extends javax.swing.JFrame {
             keywordList.append(summary);
         }
     }
+    public void loadTxt(File fileLoad){
+        try{
+            Summary summaryRegister=Database.readSummaryTxt(fileLoad);
+            summarySaved=Database.readSummaryTxt(fileLoad);
+            registerSummary(summaryRegister);
+            JOptionPane.showMessageDialog(null, "Carga Exitosa");
+            showOptions();
+        } catch(DuplicateKeyException d){
+            JOptionPane.showMessageDialog(welcomePanel, "Este resumen ya fue cargado");
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "No se encontrï¿½ el archivo", "Archivo no encontrado", JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "No se pudo leer el archivo", "Error de lectura", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Hubo un problema al leer el archivo", "Error de formato", JOptionPane.ERROR_MESSAGE);
+        } 
+    }
+    
+    public void analizeSummary(String nameSummary){
+        Summary summaryGet=summariesByTitle.get(nameSummary);
+    }
+    
+   
     public void show(String name) {
         ((CardLayout) welcomePanel.getLayout()).show(welcomePanel, name);
     }
     public void showOptions(){
         show("optionPanel");
+    }
+    public void showSearchKey(){
+        show("searchKey");
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,8 +93,10 @@ public class App extends javax.swing.JFrame {
     private void initComponents() {
 
         welcomePanel = new javax.swing.JPanel();
-        textPanel = new metromendeley.textPanel();
+        textPanel1 = new metromendeley.textPanel();
         optionsPanel1 = new metromendeley.OptionsPanel();
+        searchPanel1 = new metromendeley.SearchPanel();
+        analizeSummary1 = new metromendeley.AnalizeSummary();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MetroMendeley");
@@ -69,19 +104,12 @@ public class App extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(800, 600));
 
         welcomePanel.setLayout(new java.awt.CardLayout());
-        welcomePanel.add(textPanel, "textPanel");
+        welcomePanel.add(textPanel1, "txtPanel");
         welcomePanel.add(optionsPanel1, "optionPanel");
+        welcomePanel.add(searchPanel1, "searchPanel");
+        welcomePanel.add(analizeSummary1, "card5");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(welcomePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(welcomePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        getContentPane().add(welcomePanel, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -89,6 +117,8 @@ public class App extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    public static App instance;
+    
     public static void main(String args[]) {
         /* Set the look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -103,13 +133,21 @@ public class App extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new App().setVisible(true);
+            instance=new App();
+            instance.setVisible(true);
         });
+    }
+    public static App getInstance() {
+        return instance;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private metromendeley.AnalizeSummary analizeSummary1;
     private metromendeley.OptionsPanel optionsPanel1;
-    private metromendeley.textPanel textPanel;
+    private metromendeley.SearchPanel searchPanel1;
+    private metromendeley.textPanel textPanel1;
     private javax.swing.JPanel welcomePanel;
     // End of variables declaration//GEN-END:variables
+
 }
+
