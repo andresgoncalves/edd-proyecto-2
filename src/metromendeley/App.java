@@ -1,5 +1,8 @@
 package metromendeley;
 
+import java.awt.CardLayout;
+import java.io.File;
+
 /**
  *
  * @author Andres
@@ -41,7 +44,12 @@ public class App extends javax.swing.JFrame {
             keywordList.append(summary);
         }
     }
-
+    public void show(String name) {
+        ((CardLayout) welcomePanel.getLayout()).show(welcomePanel, name);
+    }
+    public void showOptions(){
+        show("optionPanel");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,11 +59,29 @@ public class App extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        welcomePanel = new javax.swing.JPanel();
+        textPanel = new metromendeley.textPanel();
+        optionsPanel1 = new metromendeley.OptionsPanel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MetroMendeley");
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(new java.awt.Dimension(800, 600));
-        getContentPane().setLayout(new java.awt.CardLayout());
+
+        welcomePanel.setLayout(new java.awt.CardLayout());
+        welcomePanel.add(textPanel, "textPanel");
+        welcomePanel.add(optionsPanel1, "optionPanel");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(welcomePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(welcomePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -82,5 +108,8 @@ public class App extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private metromendeley.OptionsPanel optionsPanel1;
+    private metromendeley.textPanel textPanel;
+    private javax.swing.JPanel welcomePanel;
     // End of variables declaration//GEN-END:variables
 }
