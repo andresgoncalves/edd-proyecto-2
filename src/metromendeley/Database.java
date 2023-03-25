@@ -11,87 +11,75 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+
 /**
  *
  * @author USUARIO
  */
 public class Database {
+    
     public static Summary readSummaryTxt(File fileSummary) throws IOException{
         return readSummaryTxt(new FileReader(fileSummary));
     }
+    
     public static Summary readSummaryTxt(Reader summaryReader) throws IOException{
         String line;
+        String reading="title";
         String title="";
         String body="";
-        List authors= new List();
-        List keyWords= new List();
+        List<String> authors= new List();
         String[] arrayAuthors;
-        String[] arrayKey;
+        String[] arrayKey=null;
         try(BufferedReader reader=new BufferedReader(summaryReader)){
             while((line=reader.readLine())!=null){
-                if(!"autores".equalsIgnoreCase(line)){
-                    if(!" ".equals(line)){
+                
+                if("autores".equalsIgnoreCase(line)){
+                    reading="autores";
+                }
+                else if("resumen".equalsIgnoreCase(line)){
+                    reading="resumen";
+                }
+                else if(line.contains("palabras claves")){
+                    String[] split = line.split(":");
+                    String[] split1 = split[1].split(",");
+                    arrayKey=split1;
+                }
+                if(reading.equalsIgnoreCase("title")){
                     title=title+line+" ";
-                    }
                 }
-                if(!"resumen".equalsIgnoreCase(line)){
-                    if(!" ".equals(line)){
+                else if(reading.equalsIgnoreCase("autores")){
                     authors.append(line);
-                    }
                 }
-                if("resumen".equalsIgnoreCase(line)){
-                    if(!" ".equals(line)){
+                else if(reading.equalsIgnoreCase("resumen")){
                     body=body+line+" ";
-                    }
-                }
-                if("palabras claves".equalsIgnoreCase(line)){
-                    line.split(":");
-                    keyWords.append(line.split(","));
                 }
             }
             arrayAuthors=arrayAuthors(authors);
-            arrayKey=keyArray(keyWords);
+            
         }
         return new Summary(title, body, arrayAuthors, arrayKey);
     }
+    
     public static String[] arrayAuthors(List authorList){
         String[] arrayAuthor= new String[authorList.getSize()];
         ListNode newAuthor= authorList.getFirst();
         for (int i = 0; i < arrayAuthor.length; i++) {
-            arrayAuthor[i]=newAuthor.getValue().toString();
+            arrayAuthor[i]=newAuthor.getValue().toString().strip();
             newAuthor=newAuthor.getNext();
         }
         return arrayAuthor;
     }
-    public static String[] keyArray(List keyList){
-        String[] arrayKey=new String[keyList.getSize()];
-        ListNode newArray=keyList.getFirst();
-        for (int i = 0; i < arrayKey.length; i++) {
-            arrayKey[i]=newArray.getValue().toString();
-            newArray=newArray.getNext();
-        }
-        return arrayKey;
+    
+    public static void saveSummaries(Summary summary, File fileSave) throws IOException{
+        saveSummary(summary, new FileWriter(fileSave));
     }
-//    public static Summary readHashTxt(File fileHash) throws IOException{
-//        return readHash(new FileReader(fileHash));
-//    }
-//    private static HashTable readHash(Reader hashReader) throws IOException{
-//        String line;
-//        String title="";
-//        HashTable newHash= new HashTable(0);
-//        try(BufferedReader reader= new BufferedReader(hashReader)){
-//           while((line =reader.readLine())!=null){ 
-//               if(!"autores".equals(line.toLowerCase())){
-//                   title=title+line+" ";
-//               }
-//               if("autores".equalsIgnoreCase(line)){
-//                   line=reader.readLine();
-//                   List newList=new List();
-//                   newList.append(line);
-//               }
-//              
-//           } 
-//        }    
-//        return newHash;
-//    }
+    
+    public static void saveSummary(Summary summary, Writer baseWriter) throws IOException{
+        try(BufferedWriter writeSum= new BufferedWriter(baseWriter)){
+            writeSum.write("title:"+summary.getTitle());
+            
+        }
+    }
+    
+
 }
