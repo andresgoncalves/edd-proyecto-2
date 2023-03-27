@@ -18,6 +18,7 @@ public class textPanel extends javax.swing.JPanel {
      */
     public textPanel() {
         initComponents();
+        loadTxt.setEnabled(false);
     }
 
     /**
@@ -28,54 +29,72 @@ public class textPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         welcome = new javax.swing.JLabel();
         chargeTxt = new javax.swing.JButton();
+        loadTxt = new javax.swing.JButton();
+        ejecucionAnterior = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(204, 255, 204));
-        setLayout(new java.awt.GridBagLayout());
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         welcome.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         welcome.setForeground(new java.awt.Color(0, 0, 0));
         welcome.setText("BIENVENIDOS A METROMENDELEY");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(170, 60, 0, 60);
-        add(welcome, gridBagConstraints);
+        add(welcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 450, -1));
 
-        chargeTxt.setFont(new java.awt.Font("Orator Std", 0, 14)); // NOI18N
-        chargeTxt.setText("Cargar archivo de texto");
+        chargeTxt.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        chargeTxt.setText("Seleccionar nuevo resumen");
         chargeTxt.setAlignmentY(0.0F);
         chargeTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chargeTxtActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 166;
-        gridBagConstraints.ipady = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(21, 80, 168, 0);
-        add(chargeTxt, gridBagConstraints);
+        add(chargeTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 260, -1));
+
+        loadTxt.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        loadTxt.setText("Cargar Resumen");
+        loadTxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadTxtActionPerformed(evt);
+            }
+        });
+        add(loadTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, 170, -1));
+
+        ejecucionAnterior.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        ejecucionAnterior.setText("Cargar Resumenes anteriores");
+        ejecucionAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ejecucionAnteriorActionPerformed(evt);
+            }
+        });
+        add(ejecucionAnterior, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, 360, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void chargeTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chargeTxtActionPerformed
        JFileChooser fileChooser= new JFileChooser();
        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             selectFile = fileChooser.getSelectedFile();
-            JOptionPane.showMessageDialog(null, "Carga Exitosa");
+            loadTxt.setEnabled(true);
        }
     }//GEN-LAST:event_chargeTxtActionPerformed
+
+    private void loadTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadTxtActionPerformed
+        if(selectFile!=null){
+           App.getInstance().loadTxt(selectFile); 
+        }
+    }//GEN-LAST:event_loadTxtActionPerformed
+
+    private void ejecucionAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ejecucionAnteriorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ejecucionAnteriorActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton chargeTxt;
+    private javax.swing.JButton ejecucionAnterior;
+    private javax.swing.JButton loadTxt;
     private javax.swing.JLabel welcome;
     // End of variables declaration//GEN-END:variables
 }
