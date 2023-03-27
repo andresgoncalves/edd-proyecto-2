@@ -39,7 +39,7 @@ public class Database {
                 else if("resumen".equalsIgnoreCase(line)){
                     reading="resumen";
                 }
-                else if(line.contains("palabras claves")){
+                else if((line.toLowerCase()).contains("palabras claves")){
                     String[] split = line.split(":");
                     String[] split1 = split[1].split(",");
                     arrayKey=split1;
@@ -77,6 +77,16 @@ public class Database {
     public static void saveSummary(Summary summary, Writer baseWriter) throws IOException{
         try(BufferedWriter writeSum= new BufferedWriter(baseWriter)){
             writeSum.write("title:"+summary.getTitle());
+            writeSum.write("autores");
+            for (int i = 0; i < summary.getAuthors().length; i++) {
+                writeSum.write(summary.getAuthors()[i]+"\n");
+            }
+            writeSum.write("resumen:");
+            writeSum.write(summary.getBody());
+            writeSum.write("palabras clave");
+            for (int i = 0; i < summary.getKeywords().length; i++) {
+                writeSum.write(summary.getKeywords()[i]+"\n");
+            }
             
         }
     }
