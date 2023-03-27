@@ -11,8 +11,8 @@ import javax.swing.JOptionPane;
  * @author USUARIO
  */
 public class SearchPanel extends javax.swing.JPanel {
-    private static String keyWord;
-    private static HashTable<List<Summary>> summaries;
+    
+    public static HashTable<List<Summary>> summariesList;
     /**
      * Creates new form SearchPanel
      */
@@ -30,7 +30,7 @@ public class SearchPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         introduzcaPalabra = new javax.swing.JLabel();
-        getKeyWord = new javax.swing.JTextField();
+        keyWordget = new javax.swing.JTextField();
         investigacionesRelacionadas = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         listSummary = new javax.swing.JTextArea();
@@ -43,12 +43,12 @@ public class SearchPanel extends javax.swing.JPanel {
         introduzcaPalabra.setText("Introduzca la palabra clave");
         add(introduzcaPalabra, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 34, -1, -1));
 
-        getKeyWord.addActionListener(new java.awt.event.ActionListener() {
+        keyWordget.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getKeyWordActionPerformed(evt);
+                keyWordgetActionPerformed(evt);
             }
         });
-        add(getKeyWord, new org.netbeans.lib.awtextra.AbsoluteConstraints(179, 31, 200, -1));
+        add(keyWordget, new org.netbeans.lib.awtextra.AbsoluteConstraints(179, 31, 200, -1));
 
         investigacionesRelacionadas.setForeground(new java.awt.Color(0, 0, 0));
         investigacionesRelacionadas.setText("Investigaciones relacionadas");
@@ -69,38 +69,37 @@ public class SearchPanel extends javax.swing.JPanel {
         add(searchKey, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 30, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void getKeyWordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getKeyWordActionPerformed
+    private void keyWordgetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keyWordgetActionPerformed
         
-    }//GEN-LAST:event_getKeyWordActionPerformed
+    }//GEN-LAST:event_keyWordgetActionPerformed
 
     private void searchKeyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchKeyActionPerformed
-        try{
-            keyWord=getKeyWord.getText();
-            String summariesString= getSummaries();
+        
+            String keyWord=keyWordget.getText();
+            String summariesString= getSummaries(keyWord);
             listSummary.setText(summariesString);
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(getKeyWord, "Introduzca una palabra clave válida");
-        }
+        
     }//GEN-LAST:event_searchKeyActionPerformed
     public void setHash(HashTable<List<Summary>> summaries){
-        SearchPanel.summaries=summaries;
+        summariesList=summaries;
     }
 
-    public String getSummaries(){
+    public String getSummaries(String keyword){
         String summariesString="";
-        ListNode<Summary> summaryNode=summaries.get(keyWord).getFirst();
+        setHash(summariesList);
+        ListNode<Summary> summaryNode=summariesList.get(keyword).getFirst();
         while(summaryNode!=null){
-            summariesString=summariesString+summaries.get(keyWord).getFirst().getValue().getTitle()+"\n";
-            summaryNode=summaries.get(keyWord).getFirst().getNext();
+            summariesString=summariesString+summariesList.get(keyword).getFirst().getValue().getTitle()+"\n";
+            summaryNode=summariesList.get(keyword).getFirst().getNext();
         }
         return summariesString;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField getKeyWord;
     private javax.swing.JLabel introduzcaPalabra;
     private javax.swing.JLabel investigacionesRelacionadas;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField keyWordget;
     private javax.swing.JTextArea listSummary;
     private javax.swing.JButton searchKey;
     // End of variables declaration//GEN-END:variables
