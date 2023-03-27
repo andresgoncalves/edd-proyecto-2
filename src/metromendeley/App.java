@@ -55,6 +55,7 @@ public class App extends javax.swing.JFrame {
         try{
             Summary summaryRegister=Database.readSummaryTxt(fileLoad);
             summarySaved=Database.readSummaryTxt(fileLoad);
+            
             registerSummary(summaryRegister);
             JOptionPane.showMessageDialog(null, "Carga Exitosa");
             showOptions();
@@ -65,7 +66,7 @@ public class App extends javax.swing.JFrame {
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "No se pudo leer el archivo", "Error de lectura", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Hubo un problema al leer el archivo", "Error de formato", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, ex, "Error de formato", JOptionPane.ERROR_MESSAGE);
         } 
     }
     
@@ -81,7 +82,11 @@ public class App extends javax.swing.JFrame {
         show("optionPanel");
     }
     public void showSearchKey(){
+        searchPanel1.setHash(summariesByKeyword);
         show("searchKey");
+    }
+    public void showSearchAuthor(){
+        show("authorPanel");
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -94,9 +99,10 @@ public class App extends javax.swing.JFrame {
 
         welcomePanel = new javax.swing.JPanel();
         textPanel1 = new metromendeley.textPanel();
-        optionsPanel1 = new metromendeley.OptionsPanel();
         searchPanel1 = new metromendeley.SearchPanel();
         analizeSummary1 = new metromendeley.AnalizeSummary();
+        searchAuthor1 = new metromendeley.SearchAuthor();
+        optionsPanel1 = new metromendeley.OptionsPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MetroMendeley");
@@ -104,10 +110,11 @@ public class App extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(800, 600));
 
         welcomePanel.setLayout(new java.awt.CardLayout());
-        welcomePanel.add(textPanel1, "txtPanel");
-        welcomePanel.add(optionsPanel1, "optionPanel");
-        welcomePanel.add(searchPanel1, "searchPanel");
+        welcomePanel.add(textPanel1, "card4");
+        welcomePanel.add(searchPanel1, "searchKey");
         welcomePanel.add(analizeSummary1, "card5");
+        welcomePanel.add(searchAuthor1, "authorPanel");
+        welcomePanel.add(optionsPanel1, "optionPanel");
 
         getContentPane().add(welcomePanel, java.awt.BorderLayout.CENTER);
 
@@ -144,6 +151,7 @@ public class App extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private metromendeley.AnalizeSummary analizeSummary1;
     private metromendeley.OptionsPanel optionsPanel1;
+    private metromendeley.SearchAuthor searchAuthor1;
     private metromendeley.SearchPanel searchPanel1;
     private metromendeley.textPanel textPanel1;
     private javax.swing.JPanel welcomePanel;
