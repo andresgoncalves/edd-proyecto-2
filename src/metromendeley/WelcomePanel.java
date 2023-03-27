@@ -1,22 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package metromendeley;
 
 import java.io.File;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
+
 /**
  *
  * @author USUARIO
  */
-public class textPanel extends javax.swing.JPanel {
+public class WelcomePanel extends javax.swing.JPanel {
     private File selectFile;
     /**
      * Creates new form textPanel
      */
-    public textPanel() {
+    public WelcomePanel() {
         initComponents();
         loadTxt.setEnabled(false);
     }
@@ -29,6 +25,7 @@ public class textPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         welcome = new javax.swing.JLabel();
         chargeTxt = new javax.swing.JButton();
@@ -36,12 +33,16 @@ public class textPanel extends javax.swing.JPanel {
         ejecucionAnterior = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(204, 255, 204));
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setLayout(new java.awt.GridBagLayout());
 
         welcome.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         welcome.setForeground(new java.awt.Color(0, 0, 0));
         welcome.setText("BIENVENIDOS A METROMENDELEY");
-        add(welcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 450, -1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        add(welcome, gridBagConstraints);
 
         chargeTxt.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         chargeTxt.setText("Seleccionar nuevo resumen");
@@ -51,7 +52,10 @@ public class textPanel extends javax.swing.JPanel {
                 chargeTxtActionPerformed(evt);
             }
         });
-        add(chargeTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 260, -1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        add(chargeTxt, gridBagConstraints);
 
         loadTxt.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         loadTxt.setText("Cargar Resumen");
@@ -60,7 +64,10 @@ public class textPanel extends javax.swing.JPanel {
                 loadTxtActionPerformed(evt);
             }
         });
-        add(loadTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, 170, -1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        add(loadTxt, gridBagConstraints);
 
         ejecucionAnterior.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         ejecucionAnterior.setText("Cargar Resumenes anteriores");
@@ -69,7 +76,11 @@ public class textPanel extends javax.swing.JPanel {
                 ejecucionAnteriorActionPerformed(evt);
             }
         });
-        add(ejecucionAnterior, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, 360, -1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        add(ejecucionAnterior, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
     private void chargeTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chargeTxtActionPerformed

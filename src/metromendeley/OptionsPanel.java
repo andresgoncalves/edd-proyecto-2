@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package metromendeley;
 
 /**
@@ -25,71 +21,92 @@ public class OptionsPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        analizeSummary = new javax.swing.JButton();
-        searchKey = new javax.swing.JButton();
-        searchAuthor = new javax.swing.JButton();
-        exit = new javax.swing.JButton();
-        seleccionar = new javax.swing.JLabel();
+        titleLabel = new javax.swing.JLabel();
+        analizeSummaryButton = new javax.swing.JButton();
+        searchKeywordButton = new javax.swing.JButton();
+        searchAuthorButton = new javax.swing.JButton();
+        loadSummaryButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(204, 255, 204));
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setLayout(new java.awt.GridBagLayout());
 
-        analizeSummary.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        analizeSummary.setText("Analizar Resumen");
-        analizeSummary.addActionListener(new java.awt.event.ActionListener() {
+        titleLabel.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        titleLabel.setForeground(new java.awt.Color(0, 0, 0));
+        titleLabel.setText("Seleccione una opción");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        add(titleLabel, gridBagConstraints);
+
+        analizeSummaryButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        analizeSummaryButton.setText("Analizar Resumen");
+        analizeSummaryButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                analizeSummaryActionPerformed(evt);
+                analizeSummaryButtonActionPerformed(evt);
             }
         });
-        add(analizeSummary, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 100, 379, -1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.ipadx = 238;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        add(analizeSummaryButton, gridBagConstraints);
 
-        searchKey.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        searchKey.setText("Buscar por palabra clave");
-        searchKey.addActionListener(new java.awt.event.ActionListener() {
+        searchKeywordButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        searchKeywordButton.setText("Buscar por palabra clave");
+        searchKeywordButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchKeyActionPerformed(evt);
+                searchKeywordButtonActionPerformed(evt);
             }
         });
-        add(searchKey, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 170, 379, -1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.ipadx = 194;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        add(searchKeywordButton, gridBagConstraints);
 
-        searchAuthor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        searchAuthor.setText("Buscar por autor");
-        searchAuthor.addActionListener(new java.awt.event.ActionListener() {
+        searchAuthorButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        searchAuthorButton.setText("Buscar por autor");
+        searchAuthorButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchAuthorActionPerformed(evt);
+                searchAuthorButtonActionPerformed(evt);
             }
         });
-        add(searchAuthor, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 240, 379, -1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.ipadx = 244;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        add(searchAuthorButton, gridBagConstraints);
 
-        exit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        exit.setText("Cargar nuevo resumen");
-        add(exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 310, 380, -1));
-
-        seleccionar.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        seleccionar.setForeground(new java.awt.Color(0, 0, 0));
-        seleccionar.setText("Seleccione una opción");
-        add(seleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(188, 50, -1, -1));
+        loadSummaryButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        loadSummaryButton.setText("Cargar nuevo resumen");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.ipadx = 207;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        add(loadSummaryButton, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void analizeSummaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizeSummaryActionPerformed
+    private void analizeSummaryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizeSummaryButtonActionPerformed
         App.getInstance().showSearchKey();
-    }//GEN-LAST:event_analizeSummaryActionPerformed
+    }//GEN-LAST:event_analizeSummaryButtonActionPerformed
 
-    private void searchKeyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchKeyActionPerformed
+    private void searchKeywordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchKeywordButtonActionPerformed
        App.getInstance().showSearchKey();
-    }//GEN-LAST:event_searchKeyActionPerformed
+    }//GEN-LAST:event_searchKeywordButtonActionPerformed
 
-    private void searchAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchAuthorActionPerformed
+    private void searchAuthorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchAuthorButtonActionPerformed
         App.getInstance().showSearchAuthor();
-    }//GEN-LAST:event_searchAuthorActionPerformed
+    }//GEN-LAST:event_searchAuthorButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton analizeSummary;
-    private javax.swing.JButton exit;
-    private javax.swing.JButton searchAuthor;
-    private javax.swing.JButton searchKey;
-    private javax.swing.JLabel seleccionar;
+    private javax.swing.JButton analizeSummaryButton;
+    private javax.swing.JButton loadSummaryButton;
+    private javax.swing.JButton searchAuthorButton;
+    private javax.swing.JButton searchKeywordButton;
+    private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }

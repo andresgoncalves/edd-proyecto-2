@@ -1,7 +1,6 @@
 package metromendeley;
 
 import java.awt.CardLayout;
-import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,9 +13,6 @@ import javax.swing.JOptionPane;
 public class App extends javax.swing.JFrame {
     
     private static final int HASH_TABLE_SIZE = 16;
-    
-    private File fileSaved;
-    private Summary summarySaved;
     
     private final HashTable<Summary> summariesByTitle = new HashTable<>(HASH_TABLE_SIZE);
     private final HashTable<List<Summary>> summariesByAuthor = new HashTable<>(HASH_TABLE_SIZE);
@@ -51,16 +47,28 @@ public class App extends javax.swing.JFrame {
             keywordList.append(summary);
         }
     }
-    public void loadTxt(File fileLoad){
+
+    public Summary getSummaryByTitle(String title) {
+        return summariesByTitle.get(title);
+    }
+    
+    public List<Summary> getSummariesByAuthor(String author) {
+        List<Summary> summaries = summariesByAuthor.get(author);
+        return summaries != null ? summaries : new List<>();
+    }
+    
+    public List<Summary> getSummariesByKeyword(String keyword) {
+        List<Summary> summaries =  summariesByKeyword.get(keyword);
+        return summaries != null ? summaries : new List<>();
+    }
+    
+    public void loadTxt(File file){
         try{
-            Summary summaryRegister=Database.readSummaryTxt(fileLoad);
-            summarySaved=Database.readSummaryTxt(fileLoad);
-            
-            registerSummary(summaryRegister);
+            Summary summary = Database.readSummaryTxt(file);
+            registerSummary(summary);
             JOptionPane.showMessageDialog(null, "Carga Exitosa");
-            showOptions();
-        } catch(DuplicateKeyException d){
-            JOptionPane.showMessageDialog(welcomePanel, "Este resumen ya fue cargado");
+        } catch(DuplicateKeyException ex){
+            JOptionPane.showMessageDialog(mainPanel, "Este resumen ya fue cargado");
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "No se encontrï¿½ el archivo", "Archivo no encontrado", JOptionPane.ERROR_MESSAGE);
         } catch (IOException ex) {
@@ -76,15 +84,17 @@ public class App extends javax.swing.JFrame {
     
    
     public void show(String name) {
-        ((CardLayout) welcomePanel.getLayout()).show(welcomePanel, name);
+        ((CardLayout) mainPanel.getLayout()).show(mainPanel, name);
     }
+    
     public void showOptions(){
-        show("optionPanel");
+        show("optionsPanel");
     }
+    
     public void showSearchKey(){
-        searchPanel1.setHash(summariesByKeyword);
         show("searchKey");
     }
+    
     public void showSearchAuthor(){
         show("authorPanel");
     }
@@ -97,26 +107,24 @@ public class App extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        welcomePanel = new javax.swing.JPanel();
-        textPanel1 = new metromendeley.textPanel();
-        searchPanel1 = new metromendeley.SearchPanel();
+        mainPanel = new javax.swing.JPanel();
+        searchAuthor = new metromendeley.SearchAuthor();
+        optionsPanel = new metromendeley.OptionsPanel();
+        searchPanel = new metromendeley.SearchKeywordPanel();
         analizeSummary1 = new metromendeley.AnalizeSummary();
-        searchAuthor1 = new metromendeley.SearchAuthor();
-        optionsPanel1 = new metromendeley.OptionsPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MetroMendeley");
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(new java.awt.Dimension(800, 600));
 
-        welcomePanel.setLayout(new java.awt.CardLayout());
-        welcomePanel.add(textPanel1, "card4");
-        welcomePanel.add(searchPanel1, "searchKey");
-        welcomePanel.add(analizeSummary1, "card5");
-        welcomePanel.add(searchAuthor1, "authorPanel");
-        welcomePanel.add(optionsPanel1, "optionPanel");
+        mainPanel.setLayout(new java.awt.CardLayout());
+        mainPanel.add(searchAuthor, "authorPanel");
+        mainPanel.add(optionsPanel, "optionsPanel");
+        mainPanel.add(searchPanel, "searchKey");
+        mainPanel.add(analizeSummary1, "card5");
 
-        getContentPane().add(welcomePanel, java.awt.BorderLayout.CENTER);
+        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -140,21 +148,21 @@ public class App extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            instance=new App();
+            instance = new App();
             instance.setVisible(true);
         });
     }
+    
     public static App getInstance() {
         return instance;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private metromendeley.AnalizeSummary analizeSummary1;
-    private metromendeley.OptionsPanel optionsPanel1;
-    private metromendeley.SearchAuthor searchAuthor1;
-    private metromendeley.SearchPanel searchPanel1;
-    private metromendeley.textPanel textPanel1;
-    private javax.swing.JPanel welcomePanel;
+    private javax.swing.JPanel mainPanel;
+    private metromendeley.OptionsPanel optionsPanel;
+    private metromendeley.SearchAuthor searchAuthor;
+    private metromendeley.SearchKeywordPanel searchPanel;
     // End of variables declaration//GEN-END:variables
 
 }

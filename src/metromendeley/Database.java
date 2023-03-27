@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package metromendeley;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,51 +20,58 @@ public class Database {
     }
     
     public static Summary readSummaryTxt(Reader summaryReader) throws IOException{
-        String line;
-        String reading="title";
-        String title="";
-        String body="";
-        List<String> authors= new List();
-        String[] arrayAuthors;
-        String[] arrayKey=null;
+        String title = null;
+        String body = null;
+        String[] authors;
+        String[] keywords = {};
+        List<String> authorList = new List<>();
+        
         try(BufferedReader reader=new BufferedReader(summaryReader)){
-            while((line=reader.readLine())!=null){
-                
+            String line;
+            String reading = "title";
+            while((line = reader.readLine()) != null){
+                line = line.strip();
                 if("autores".equalsIgnoreCase(line)){
-                    reading="autores";
+                    reading = "autores";
                 }
                 else if("resumen".equalsIgnoreCase(line)){
-                    reading="resumen";
+                    reading = "resumen";
                 }
-                else if((line.toLowerCase()).contains("palabras claves")){
-                    String[] split = line.split(":");
-                    String[] split1 = split[1].split(",");
-                    arrayKey=split1;
+                else if(line.toLowerCase().startsWith("palabras claves")){
+                    keywords = line.split(":")[1].replace(".", "").split(",");
+                    for(int i = 0; i < keywords.length; i++) {
+                        keywords[i] = keywords[i].strip();
+                    }
                 }
-                if(reading.equalsIgnoreCase("title")){
-                    title=title+line+" ";
+                else if(reading.equalsIgnoreCase("title")){
+                    if(title == null) {
+                        title = line;
+                    }
+                    else {
+                        title += " " + line;
+                    }
                 }
                 else if(reading.equalsIgnoreCase("autores")){
-                    authors.append(line);
+                    authorList.append(line);
                 }
                 else if(reading.equalsIgnoreCase("resumen")){
-                    body=body+line+" ";
+                    if(body == null) {
+                        body = line;
+                    }
+                    else {
+                        body += "\n" + line;
+                    }
                 }
-            }
-            arrayAuthors=arrayAuthors(authors);
-            
+            }            
         }
-        return new Summary(title, body, arrayAuthors, arrayKey);
-    }
-    
-    public static String[] arrayAuthors(List authorList){
-        String[] arrayAuthor= new String[authorList.getSize()];
-        ListNode newAuthor= authorList.getFirst();
-        for (int i = 0; i < arrayAuthor.length; i++) {
-            arrayAuthor[i]=newAuthor.getValue().toString().strip();
-            newAuthor=newAuthor.getNext();
+        
+        authors = new String[authorList.getSize()];
+        int i = 0;
+        for(ListNode<String> node = authorList.getFirst(); node != null; node = node.getNext()) {
+            authors[i++] = node.getValue();
         }
-        return arrayAuthor;
+        
+        return new Summary(title, body, authors, keywords);
     }
     
     public static void saveSummaries(Summary summary, File fileSave) throws IOException{

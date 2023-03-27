@@ -18,8 +18,8 @@ public class AnalizeSummary extends javax.swing.JPanel {
     }
     
     public void setData(Summary getSummary){
-       SummaryTitle.setText(getSummary.getTitle());
-       String authors="";
+        SummaryTitle.setText(getSummary.getTitle());
+        String authors="";
         for (int i = 0; i < getSummary.getAuthors().length; i++) {
             authors=authors+getSummary.getAuthors()[i]+"\n";
         }

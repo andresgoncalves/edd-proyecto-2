@@ -1,33 +1,27 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package metromendeley;
-
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author USUARIO
  */
-public class SearchAuthor extends javax.swing.JPanel {
+public class SearchKeywordPanel extends javax.swing.JPanel {
     
     /**
-     * Creates new form SearchAuthor
+     * Creates new form SearchPanel
      */
-    public SearchAuthor() {
+    public SearchKeywordPanel() {
         initComponents();
     }
     
-    public void setSummaries(String author){
+    public void setSummaries(String keyword){
         StringBuilder builder = new StringBuilder();
-        List<Summary> summaries = App.getInstance().getSummariesByAuthor(author);
+        List<Summary> summaries = App.getInstance().getSummariesByKeyword(keyword);
         for(ListNode<Summary> node = summaries.getFirst(); node != null; node = node.getNext()) {
             builder.append(node.getValue().getTitle()).append("\n");
         }
         relatedSummariesTextArea.setText(builder.toString());
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,22 +32,45 @@ public class SearchAuthor extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        authorLabel = new javax.swing.JLabel();
+        keywordLabel = new javax.swing.JLabel();
+        keywordTextField = new javax.swing.JTextField();
+        searchButton = new javax.swing.JButton();
         relatedSummariesLabel = new javax.swing.JLabel();
         relatedSummariesScrollPane = new javax.swing.JScrollPane();
         relatedSummariesTextArea = new javax.swing.JTextArea();
-        authorTextField = new javax.swing.JTextField();
-        searchButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(204, 255, 204));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(40, 40, 40, 40));
         setLayout(new java.awt.GridBagLayout());
 
-        authorLabel.setForeground(new java.awt.Color(0, 0, 0));
-        authorLabel.setText("Introduzca la palabra clave:");
+        keywordLabel.setForeground(new java.awt.Color(0, 0, 0));
+        keywordLabel.setText("Introduzca la palabra clave:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
-        add(authorLabel, gridBagConstraints);
+        add(keywordLabel, gridBagConstraints);
+
+        keywordTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                keywordTextFieldActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 10);
+        add(keywordTextField, gridBagConstraints);
+
+        searchButton.setText("Buscar");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 0;
+        add(searchButton, gridBagConstraints);
 
         relatedSummariesLabel.setForeground(new java.awt.Color(0, 0, 0));
         relatedSummariesLabel.setText("Investigaciones relacionadas");
@@ -74,43 +91,19 @@ public class SearchAuthor extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         add(relatedSummariesScrollPane, gridBagConstraints);
-
-        authorTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                authorTextFieldActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 10);
-        add(authorTextField, gridBagConstraints);
-
-        searchButton.setText("Buscar");
-        searchButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchButtonActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        add(searchButton, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void keywordTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keywordTextFieldActionPerformed
+        setSummaries(keywordTextField.getText());
+    }//GEN-LAST:event_keywordTextFieldActionPerformed
+
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        setSummaries(authorTextField.getText());
+        setSummaries(keywordTextField.getText());
     }//GEN-LAST:event_searchButtonActionPerformed
 
-    private void authorTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_authorTextFieldActionPerformed
-        setSummaries(authorTextField.getText());
-    }//GEN-LAST:event_authorTextFieldActionPerformed
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel authorLabel;
-    private javax.swing.JTextField authorTextField;
+    private javax.swing.JLabel keywordLabel;
+    private javax.swing.JTextField keywordTextField;
     private javax.swing.JLabel relatedSummariesLabel;
     private javax.swing.JScrollPane relatedSummariesScrollPane;
     private javax.swing.JTextArea relatedSummariesTextArea;
