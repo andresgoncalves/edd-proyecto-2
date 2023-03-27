@@ -1,14 +1,17 @@
 package metromendeley;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author USUARIO
  */
 public class WelcomePanel extends javax.swing.JPanel {
-    private File selectFile;
+    private File selectedFile;
     /**
      * Creates new form textPanel
      */
@@ -86,15 +89,25 @@ public class WelcomePanel extends javax.swing.JPanel {
     private void chargeTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chargeTxtActionPerformed
        JFileChooser fileChooser= new JFileChooser();
        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            selectFile = fileChooser.getSelectedFile();
+            selectedFile = fileChooser.getSelectedFile();
             loadTxt.setEnabled(true);
        }
     }//GEN-LAST:event_chargeTxtActionPerformed
 
     private void loadTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadTxtActionPerformed
-        if(selectFile!=null){
-           App.getInstance().loadTxt(selectFile); 
-        }
+        try{
+            Summary summary = Database.readSummaryTxt(selectedFile);
+            App.getInstance().registerSummary(summary);
+            JOptionPane.showMessageDialog(null, "Carga Exitosa");
+        } catch(DuplicateKeyException ex){
+            JOptionPane.showMessageDialog(this, "Este resumen ya fue cargado");
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "No se encontrï¿½ el archivo", "Archivo no encontrado", JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "No se pudo leer el archivo", "Error de lectura", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex, "Error de formato", JOptionPane.ERROR_MESSAGE);
+        } 
     }//GEN-LAST:event_loadTxtActionPerformed
 
     private void ejecucionAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ejecucionAnteriorActionPerformed

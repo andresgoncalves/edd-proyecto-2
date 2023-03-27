@@ -39,17 +39,17 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
       <SubComponents>
-        <Component class="metromendeley.SearchAuthor" name="searchAuthor">
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
-              <CardConstraints cardName="authorPanel"/>
-            </Constraint>
-          </Constraints>
-        </Component>
         <Component class="metromendeley.OptionsPanel" name="optionsPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
               <CardConstraints cardName="optionsPanel"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="metromendeley.SearchAuthor" name="searchAuthor">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+              <CardConstraints cardName="authorPanel"/>
             </Constraint>
           </Constraints>
         </Component>

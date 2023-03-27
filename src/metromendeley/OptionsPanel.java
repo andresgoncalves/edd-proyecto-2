@@ -1,5 +1,11 @@
 package metromendeley;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author USUARIO
@@ -23,6 +29,7 @@ public class OptionsPanel extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        fileChooser = new javax.swing.JFileChooser();
         titleLabel = new javax.swing.JLabel();
         analizeSummaryButton = new javax.swing.JButton();
         searchKeywordButton = new javax.swing.JButton();
@@ -82,6 +89,11 @@ public class OptionsPanel extends javax.swing.JPanel {
 
         loadSummaryButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         loadSummaryButton.setText("Cargar nuevo resumen");
+        loadSummaryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadSummaryButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.ipadx = 207;
@@ -90,20 +102,40 @@ public class OptionsPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void analizeSummaryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizeSummaryButtonActionPerformed
-        App.getInstance().showSearchKey();
+        //App.getInstance().showOptions();
     }//GEN-LAST:event_analizeSummaryButtonActionPerformed
 
     private void searchKeywordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchKeywordButtonActionPerformed
-       App.getInstance().showSearchKey();
+       App.getInstance().showSearchByKeyword();
     }//GEN-LAST:event_searchKeywordButtonActionPerformed
 
     private void searchAuthorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchAuthorButtonActionPerformed
-        App.getInstance().showSearchAuthor();
+        App.getInstance().showSearchByAuthor();
     }//GEN-LAST:event_searchAuthorButtonActionPerformed
+
+    private void loadSummaryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadSummaryButtonActionPerformed
+        if(fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            try{
+                Summary summary = Database.readSummaryTxt(file);
+                App.getInstance().registerSummary(summary);
+                JOptionPane.showMessageDialog(null, "Carga Exitosa");
+            } catch(DuplicateKeyException ex){
+                JOptionPane.showMessageDialog(this, "Este resumen ya fue cargado");
+            } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(this, "No se encontró el archivo", "Archivo no encontrado", JOptionPane.ERROR_MESSAGE);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "No se pudo leer el archivo", "Error de lectura", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex, "Error de formato", JOptionPane.ERROR_MESSAGE);
+            } 
+        }
+    }//GEN-LAST:event_loadSummaryButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton analizeSummaryButton;
+    private javax.swing.JFileChooser fileChooser;
     private javax.swing.JButton loadSummaryButton;
     private javax.swing.JButton searchAuthorButton;
     private javax.swing.JButton searchKeywordButton;

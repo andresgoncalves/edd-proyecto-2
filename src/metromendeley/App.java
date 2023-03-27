@@ -62,22 +62,6 @@ public class App extends javax.swing.JFrame {
         return summaries != null ? summaries : new List<>();
     }
     
-    public void loadTxt(File file){
-        try{
-            Summary summary = Database.readSummaryTxt(file);
-            registerSummary(summary);
-            JOptionPane.showMessageDialog(null, "Carga Exitosa");
-        } catch(DuplicateKeyException ex){
-            JOptionPane.showMessageDialog(mainPanel, "Este resumen ya fue cargado");
-        } catch (FileNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "No se encontrï¿½ el archivo", "Archivo no encontrado", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "No se pudo leer el archivo", "Error de lectura", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex, "Error de formato", JOptionPane.ERROR_MESSAGE);
-        } 
-    }
-    
     public void analizeSummary(String nameSummary){
         Summary summaryGet=summariesByTitle.get(nameSummary);
     }
@@ -91,11 +75,11 @@ public class App extends javax.swing.JFrame {
         show("optionsPanel");
     }
     
-    public void showSearchKey(){
+    public void showSearchByKeyword(){
         show("searchKey");
     }
     
-    public void showSearchAuthor(){
+    public void showSearchByAuthor(){
         show("authorPanel");
     }
     /**
@@ -108,8 +92,8 @@ public class App extends javax.swing.JFrame {
     private void initComponents() {
 
         mainPanel = new javax.swing.JPanel();
-        searchAuthor = new metromendeley.SearchAuthor();
         optionsPanel = new metromendeley.OptionsPanel();
+        searchAuthor = new metromendeley.SearchAuthor();
         searchPanel = new metromendeley.SearchKeywordPanel();
         analizeSummary1 = new metromendeley.AnalizeSummary();
 
@@ -119,8 +103,8 @@ public class App extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(800, 600));
 
         mainPanel.setLayout(new java.awt.CardLayout());
-        mainPanel.add(searchAuthor, "authorPanel");
         mainPanel.add(optionsPanel, "optionsPanel");
+        mainPanel.add(searchAuthor, "authorPanel");
         mainPanel.add(searchPanel, "searchKey");
         mainPanel.add(analizeSummary1, "card5");
 
