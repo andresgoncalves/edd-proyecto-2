@@ -102,7 +102,7 @@ public class OptionsPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void analizeSummaryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizeSummaryButtonActionPerformed
-        //App.getInstance().showOptions();
+        App.getInstance().showAnalize();
     }//GEN-LAST:event_analizeSummaryButtonActionPerformed
 
     private void searchKeywordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchKeywordButtonActionPerformed

@@ -5,8 +5,8 @@ package metromendeley;
  * @author Andres
  */
 public class List<T> {
-    private ListNode<T> first, last;
-    private int size;
+    protected ListNode<T> first, last;
+    protected int size;
     
     public void append(T value) {
         ListNode<T> node = new ListNode<>(value);

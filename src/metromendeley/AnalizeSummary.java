@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package metromendeley;
 
 /**
@@ -17,18 +13,31 @@ public class AnalizeSummary extends javax.swing.JPanel {
         initComponents();
     }
     
-    public void setData(Summary getSummary){
-        SummaryTitle.setText(getSummary.getTitle());
-        String authors="";
-        for (int i = 0; i < getSummary.getAuthors().length; i++) {
-            authors=authors+getSummary.getAuthors()[i]+"\n";
+    public void updateSummaries(List<Summary> summaries) {
+        authorsTextArea.setText("");
+        keywordsTextArea.setText("");
+        summariesComboBox.removeAllItems();
+        for(ListNode<Summary> node = summaries.getFirst(); node != null; node = node.getNext()) {
+            summariesComboBox.addItem(node.getValue().getTitle());
         }
-        authorsSummary.setText(authors);
-        String keyW="";
-        for (int i = 0; i < getSummary.getKeywordAppearances().length; i++) {
-            keyW=keyW+getSummary.getKeywordAppearances()[i]+"\n";
+    }
+    
+    public void setSummary(Summary summary){
+        
+        titleTextField.setText(summary.getTitle());
+        bodyTextArea.setText(summary.getBody());
+        
+        authorsTextArea.setText("");
+        for(String author : summary.getAuthors()) {
+            authorsTextArea.append(String.format("%s\n", author));
+        }      
+        
+        keywordsTextArea.setText("");
+        int i = 0;
+        for(String keyword : summary.getKeywords()) {
+            keywordsTextArea.append(String.format("%s (%d apariciones)\n", keyword, summary.getKeywordAppearances()[i++]));
         }
-        palabrasClaves.setText(keyW);
+        
     }
    
     /**
@@ -39,110 +48,155 @@ public class AnalizeSummary extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        JSummaries = new javax.swing.JComboBox<>();
-        seleccioneResume = new javax.swing.JLabel();
-        tituloResumen = new javax.swing.JLabel();
-        AutoresdelResumen = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        keyWordsText = new javax.swing.JTextArea();
-        palabrasClaves = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        authorsSummary = new javax.swing.JTextArea();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        SummaryTitle = new javax.swing.JTextArea();
+        selectLabel = new javax.swing.JLabel();
+        summariesComboBox = new javax.swing.JComboBox<>();
+        titleLabel = new javax.swing.JLabel();
+        titleTextField = new javax.swing.JTextField();
+        bodyLabel = new javax.swing.JLabel();
+        bodyScrollPane = new javax.swing.JScrollPane();
+        bodyTextArea = new javax.swing.JTextArea();
+        authorsLabel = new javax.swing.JLabel();
+        keywordsLabel = new javax.swing.JLabel();
+        authorsScrollPane = new javax.swing.JScrollPane();
+        authorsTextArea = new javax.swing.JTextArea();
+        keywordsScrollPane = new javax.swing.JScrollPane();
+        keywordsTextArea = new javax.swing.JTextArea();
 
         setBackground(new java.awt.Color(204, 255, 204));
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(40, 40, 40, 40));
+        setLayout(new java.awt.GridBagLayout());
 
-        JSummaries.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        selectLabel.setForeground(new java.awt.Color(0, 0, 0));
+        selectLabel.setText("Seleccione un Resumen:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
+        add(selectLabel, gridBagConstraints);
 
-        seleccioneResume.setForeground(new java.awt.Color(0, 0, 0));
-        seleccioneResume.setText("Seleccione un resumen");
+        summariesComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        summariesComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                summariesComboBoxActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
+        add(summariesComboBox, gridBagConstraints);
 
-        tituloResumen.setForeground(new java.awt.Color(0, 0, 0));
-        tituloResumen.setText("Título del Resumen");
+        titleLabel.setForeground(new java.awt.Color(0, 0, 0));
+        titleLabel.setText("Título del Resumen:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
+        add(titleLabel, gridBagConstraints);
 
-        AutoresdelResumen.setForeground(new java.awt.Color(0, 0, 0));
-        AutoresdelResumen.setText("Autores del Resumen");
+        titleTextField.setEditable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
+        add(titleTextField, gridBagConstraints);
 
-        keyWordsText.setColumns(20);
-        keyWordsText.setRows(5);
-        jScrollPane1.setViewportView(keyWordsText);
+        bodyLabel.setForeground(new java.awt.Color(0, 0, 0));
+        bodyLabel.setText("Cuerpo del Resumen:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(20, 10, 10, 0);
+        add(bodyLabel, gridBagConstraints);
 
-        palabrasClaves.setForeground(new java.awt.Color(0, 0, 0));
-        palabrasClaves.setText("Palabras Claves:");
+        bodyTextArea.setEditable(false);
+        bodyTextArea.setColumns(20);
+        bodyTextArea.setLineWrap(true);
+        bodyTextArea.setRows(5);
+        bodyScrollPane.setViewportView(bodyTextArea);
 
-        authorsSummary.setColumns(20);
-        authorsSummary.setRows(5);
-        jScrollPane2.setViewportView(authorsSummary);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
+        add(bodyScrollPane, gridBagConstraints);
 
-        SummaryTitle.setColumns(20);
-        SummaryTitle.setRows(5);
-        jScrollPane3.setViewportView(SummaryTitle);
+        authorsLabel.setForeground(new java.awt.Color(0, 0, 0));
+        authorsLabel.setText("Autores del Resumen:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(20, 10, 10, 0);
+        add(authorsLabel, gridBagConstraints);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(AutoresdelResumen)
-                            .addComponent(tituloResumen)
-                            .addComponent(seleccioneResume))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(JSummaries, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(99, 99, 99)
-                                .addComponent(palabrasClaves))))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(312, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JSummaries, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(seleccioneResume))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(tituloResumen))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(AutoresdelResumen)
-                    .addComponent(palabrasClaves))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addContainerGap(49, Short.MAX_VALUE))
-        );
+        keywordsLabel.setForeground(new java.awt.Color(0, 0, 0));
+        keywordsLabel.setText("Palabras Claves:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(20, 10, 10, 0);
+        add(keywordsLabel, gridBagConstraints);
+
+        authorsTextArea.setEditable(false);
+        authorsTextArea.setColumns(20);
+        authorsTextArea.setRows(5);
+        authorsScrollPane.setViewportView(authorsTextArea);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.5;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
+        add(authorsScrollPane, gridBagConstraints);
+
+        keywordsTextArea.setEditable(false);
+        keywordsTextArea.setColumns(20);
+        keywordsTextArea.setRows(5);
+        keywordsScrollPane.setViewportView(keywordsTextArea);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.5;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        add(keywordsScrollPane, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void summariesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_summariesComboBoxActionPerformed
+        String selected = (String) summariesComboBox.getSelectedItem();
+        if(selected != null) {
+            setSummary(App.getInstance().getSummaryByTitle(selected));
+        }
+    }//GEN-LAST:event_summariesComboBoxActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel AutoresdelResumen;
-    private javax.swing.JComboBox<String> JSummaries;
-    private javax.swing.JTextArea SummaryTitle;
-    private javax.swing.JTextArea authorsSummary;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea keyWordsText;
-    private javax.swing.JLabel palabrasClaves;
-    private javax.swing.JLabel seleccioneResume;
-    private javax.swing.JLabel tituloResumen;
+    private javax.swing.JLabel authorsLabel;
+    private javax.swing.JScrollPane authorsScrollPane;
+    private javax.swing.JTextArea authorsTextArea;
+    private javax.swing.JLabel bodyLabel;
+    private javax.swing.JScrollPane bodyScrollPane;
+    private javax.swing.JTextArea bodyTextArea;
+    private javax.swing.JLabel keywordsLabel;
+    private javax.swing.JScrollPane keywordsScrollPane;
+    private javax.swing.JTextArea keywordsTextArea;
+    private javax.swing.JLabel selectLabel;
+    private javax.swing.JComboBox<String> summariesComboBox;
+    private javax.swing.JLabel titleLabel;
+    private javax.swing.JTextField titleTextField;
     // End of variables declaration//GEN-END:variables
 }

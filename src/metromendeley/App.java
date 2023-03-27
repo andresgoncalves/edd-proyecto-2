@@ -1,10 +1,6 @@
 package metromendeley;
 
 import java.awt.CardLayout;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,6 +10,7 @@ public class App extends javax.swing.JFrame {
     
     private static final int HASH_TABLE_SIZE = 16;
     
+    private final SortedSummaryList summaries = new SortedSummaryList();
     private final HashTable<Summary> summariesByTitle = new HashTable<>(HASH_TABLE_SIZE);
     private final HashTable<List<Summary>> summariesByAuthor = new HashTable<>(HASH_TABLE_SIZE);
     private final HashTable<List<Summary>> summariesByKeyword = new HashTable<>(HASH_TABLE_SIZE);
@@ -26,6 +23,8 @@ public class App extends javax.swing.JFrame {
     }
     
     public void registerSummary(Summary summary) {
+        /* Agregar resumen a la lista */
+        summaries.insert(summary);
         /* Agregar resumen a la tabla principal */
         summariesByTitle.set(summary.getTitle(), summary);
         /* Agregar resumen a la tabla indexada por autores */
@@ -48,6 +47,10 @@ public class App extends javax.swing.JFrame {
         }
     }
 
+    public List<Summary> getSummaries() {
+        return summaries;
+    }
+
     public Summary getSummaryByTitle(String title) {
         return summariesByTitle.get(title);
     }
@@ -61,18 +64,18 @@ public class App extends javax.swing.JFrame {
         List<Summary> summaries =  summariesByKeyword.get(keyword);
         return summaries != null ? summaries : new List<>();
     }
-    
-    public void analizeSummary(String nameSummary){
-        Summary summaryGet=summariesByTitle.get(nameSummary);
-    }
-    
-   
+       
     public void show(String name) {
         ((CardLayout) mainPanel.getLayout()).show(mainPanel, name);
     }
     
     public void showOptions(){
         show("optionsPanel");
+    }
+    
+    public void showAnalize(){
+        analizeSummaryPanel.updateSummaries(summaries);
+        show("analizePanel");
     }
     
     public void showSearchByKeyword(){
@@ -95,7 +98,7 @@ public class App extends javax.swing.JFrame {
         optionsPanel = new metromendeley.OptionsPanel();
         searchAuthor = new metromendeley.SearchAuthor();
         searchPanel = new metromendeley.SearchKeywordPanel();
-        analizeSummary1 = new metromendeley.AnalizeSummary();
+        analizeSummaryPanel = new metromendeley.AnalizeSummary();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MetroMendeley");
@@ -106,7 +109,7 @@ public class App extends javax.swing.JFrame {
         mainPanel.add(optionsPanel, "optionsPanel");
         mainPanel.add(searchAuthor, "authorPanel");
         mainPanel.add(searchPanel, "searchKey");
-        mainPanel.add(analizeSummary1, "card5");
+        mainPanel.add(analizeSummaryPanel, "analizePanel");
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
@@ -142,7 +145,7 @@ public class App extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private metromendeley.AnalizeSummary analizeSummary1;
+    private metromendeley.AnalizeSummary analizeSummaryPanel;
     private javax.swing.JPanel mainPanel;
     private metromendeley.OptionsPanel optionsPanel;
     private metromendeley.SearchAuthor searchAuthor;
