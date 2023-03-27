@@ -25,7 +25,6 @@ public class OptionsPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         analizeSummary = new javax.swing.JButton();
         searchKey = new javax.swing.JButton();
@@ -34,7 +33,7 @@ public class OptionsPanel extends javax.swing.JPanel {
         seleccionar = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(204, 255, 204));
-        setLayout(new java.awt.GridBagLayout());
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         analizeSummary.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         analizeSummary.setText("Analizar Resumen");
@@ -43,62 +42,47 @@ public class OptionsPanel extends javax.swing.JPanel {
                 analizeSummaryActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 243;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(14, 70, 0, 115);
-        add(analizeSummary, gridBagConstraints);
+        add(analizeSummary, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 100, 379, -1));
 
         searchKey.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         searchKey.setText("Buscar por palabra clave");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 200;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(46, 70, 0, 115);
-        add(searchKey, gridBagConstraints);
+        searchKey.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchKeyActionPerformed(evt);
+            }
+        });
+        add(searchKey, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 170, 379, -1));
 
         searchAuthor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         searchAuthor.setText("Buscar por autor");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 246;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(46, 70, 0, 115);
-        add(searchAuthor, gridBagConstraints);
+        searchAuthor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchAuthorActionPerformed(evt);
+            }
+        });
+        add(searchAuthor, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 240, 379, -1));
 
         exit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        exit.setText("Salir del Sistema");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 253;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(46, 70, 37, 115);
-        add(exit, gridBagConstraints);
+        exit.setText("Cargar nuevo resumen");
+        add(exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 310, 380, -1));
 
-        seleccionar.setFont(new java.awt.Font("Tekton Pro", 0, 12)); // NOI18N
+        seleccionar.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         seleccionar.setForeground(new java.awt.Color(0, 0, 0));
         seleccionar.setText("Seleccione una opción");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(80, 200, 0, 0);
-        add(seleccionar, gridBagConstraints);
+        add(seleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(188, 50, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void analizeSummaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizeSummaryActionPerformed
         App.getInstance().showSearchKey();
     }//GEN-LAST:event_analizeSummaryActionPerformed
+
+    private void searchKeyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchKeyActionPerformed
+       App.getInstance().showSearchKey();
+    }//GEN-LAST:event_searchKeyActionPerformed
+
+    private void searchAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchAuthorActionPerformed
+        App.getInstance().showSearchAuthor();
+    }//GEN-LAST:event_searchAuthorActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
