@@ -19,7 +19,7 @@ public class Database {
         return readSummaryTxt(new FileReader(fileSummary));
     }
     
-    public static Summary readSummaryTxt(Reader summaryReader) throws IOException{
+    private static Summary readSummaryTxt(Reader summaryReader) throws IOException{
         String title = null;
         String body = null;
         String[] authors;
@@ -74,12 +74,81 @@ public class Database {
         return new Summary(title, body, authors, keywords);
     }
     
+    public static Summary readAllSummaries(Reader summaryReader) throws IOException{
+        String title = null;
+        String body = null;
+        String[] authors;
+        String[] keywords;
+        List<String> authorList = new List<>();
+        List<String> keyList = new List<>();
+        
+        try(BufferedReader reader=new BufferedReader(summaryReader)){
+            String line;
+            String reading = "title";
+            while((line = reader.readLine()) != null){
+                line = line.strip();
+                while(!line.equalsIgnoreCase("summary")){
+                    if("summary".equalsIgnoreCase(line)){
+                        reading="summary";
+                    }
+                    else if("autores".equalsIgnoreCase(line)){
+                        reading = "autores";
+                    }
+                    else if("resumen".equalsIgnoreCase(line)){
+                        reading = "resumen";
+                    }
+                    else if(line.equalsIgnoreCase("palabras claves")){
+                        reading="palabras claves";
+                    }
+                    else if(reading.equalsIgnoreCase("palabras claves")){
+                        keyList.append(line);
+                    }
+                    else if(reading.equalsIgnoreCase("title")){
+                        if(title == null) {
+                            title = line;
+                        }
+                        else {
+                            title += " " + line;
+                        }
+                    }
+                    else if(reading.equalsIgnoreCase("autores")){
+                        authorList.append(line);
+                    }
+                    else if(reading.equalsIgnoreCase("resumen")){
+                        if(body == null) {
+                            body = line;
+                        }
+                        else {
+                            body += "\n" + line;
+                        }
+                    }
+                }
+            }
+        }
+                
+        
+        authors = new String[authorList.getSize()];
+        int i = 0;
+        for(ListNode<String> node = authorList.getFirst(); node != null; node = node.getNext()) {
+            authors[i++] = node.getValue();
+        }
+        
+        keywords = new String[keyList.getSize()];
+        int j = 0;
+        for(ListNode<String> node = keyList.getFirst(); node != null; node = node.getNext()) {
+            keywords[j++] = node.getValue();
+        }
+        
+        return new Summary(title, body, authors, keywords);
+    }
+    
     public static void saveSummaries(Summary summary, File fileSave) throws IOException{
         saveSummary(summary, new FileWriter(fileSave));
     }
     
-    public static void saveSummary(Summary summary, Writer baseWriter) throws IOException{
+    private static void saveSummary(Summary summary, Writer baseWriter) throws IOException{
         try(BufferedWriter writeSum= new BufferedWriter(baseWriter)){
+            writeSum.write("Summary");
             writeSum.write("title:"+summary.getTitle());
             writeSum.write("autores");
             for (int i = 0; i < summary.getAuthors().length; i++) {
