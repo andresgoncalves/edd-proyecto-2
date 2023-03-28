@@ -1,6 +1,7 @@
 package metromendeley;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.JFileChooser;
@@ -47,7 +48,7 @@ public class WelcomePanel extends javax.swing.JPanel {
         add(titleLabel, gridBagConstraints);
 
         createDatabaseButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        createDatabaseButton.setText("Crear base de datos");
+        createDatabaseButton.setText("Crear nueva base de datos");
         createDatabaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createDatabaseButtonActionPerformed(evt);
@@ -61,7 +62,7 @@ public class WelcomePanel extends javax.swing.JPanel {
         add(createDatabaseButton, gridBagConstraints);
 
         loadDatabaseButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        loadDatabaseButton.setText("Cargar base de datos");
+        loadDatabaseButton.setText("Cargar base de datos existente");
         loadDatabaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadDatabaseButtonActionPerformed(evt);
@@ -87,13 +88,13 @@ public class WelcomePanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Carga Exitosa");
                 App.getInstance().showMenu();
             } catch(DuplicateKeyException ex){
-                JOptionPane.showMessageDialog(this, "Se encontraron resúmenes repetidos");
+                JOptionPane.showMessageDialog(this, "Se encontraron resumenes repetidos", "Resumen duplicado", JOptionPane.WARNING_MESSAGE);
             } catch (FileNotFoundException ex) {
-                JOptionPane.showMessageDialog(this, "No se encontró el archivo", "Archivo no encontrado", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "No se encontró el archivo", "Archivo no encontrado", JOptionPane.WARNING_MESSAGE);
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "No se pudo leer el archivo", "Error de lectura", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, ex, "Error de formato", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "El archivo no es un archivo de base de datos", "Error de formato", JOptionPane.WARNING_MESSAGE);
             }
         }
     }//GEN-LAST:event_loadDatabaseButtonActionPerformed
@@ -102,8 +103,13 @@ public class WelcomePanel extends javax.swing.JPanel {
         fileChooser.setSelectedFile(new File("metromendeley-db.txt"));
         if(fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
-            App.getInstance().setDatabaseFile(file);
-            App.getInstance().showMenu();
+            if(!file.exists()) {
+                App.getInstance().setDatabaseFile(file);
+                App.getInstance().showMenu();
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Seleccione un archivo nuevo", "Archivo existente", JOptionPane.WARNING_MESSAGE);
+            }
         }
     }//GEN-LAST:event_createDatabaseButtonActionPerformed
 

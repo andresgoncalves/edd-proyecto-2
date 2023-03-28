@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 public class Database {
     
-    public static Summary loadSummary(File file) throws IOException{
+    public static Summary loadSummary(File file) throws IOException {
         String title = null;
         String body = null;
         String[] authors;
@@ -120,6 +120,9 @@ public class Database {
                     body = null;
                     authorList = new List<>();
                     keywordList = new List<>();  
+                }
+                else {
+                    throw new RuntimeException("Error de formato");
                 }
             }
         }
