@@ -19,4 +19,4 @@ Segundo proyecto de Estructuras de Datos. Trimestre 2223-2.
 
 ## Diagrama de Clases UML
 
-![Diagrama de clases](diagrama-de-clases.png)
+![Diagrama de clases](metromendeley UML.jpeg)
