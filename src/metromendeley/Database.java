@@ -6,8 +6,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
 
 /**
  *
@@ -15,23 +13,22 @@ import java.io.Writer;
  */
 public class Database {
     
-    public static Summary readSummaryTxt(File fileSummary) throws IOException{
-        return readSummaryTxt(new FileReader(fileSummary));
-    }
-    
-    private static Summary readSummaryTxt(Reader summaryReader) throws IOException{
+    public static Summary loadSummary(File file) throws IOException{
         String title = null;
         String body = null;
         String[] authors;
         String[] keywords = {};
         List<String> authorList = new List<>();
         
-        try(BufferedReader reader=new BufferedReader(summaryReader)){
+        try(BufferedReader reader = new BufferedReader(new FileReader(file))){
             String line;
             String reading = "title";
             while((line = reader.readLine()) != null){
                 line = line.strip();
-                if("autores".equalsIgnoreCase(line)){
+                if(line.isBlank()) {
+                    
+                }
+                else if("autores".equalsIgnoreCase(line)){
                     reading = "autores";
                 }
                 else if("resumen".equalsIgnoreCase(line)){
@@ -43,7 +40,7 @@ public class Database {
                         keywords[i] = keywords[i].strip();
                     }
                 }
-                else if(reading.equalsIgnoreCase("title")){
+                else if(reading.equals("title")){
                     if(title == null) {
                         title = line;
                     }
@@ -51,10 +48,10 @@ public class Database {
                         title += " " + line;
                     }
                 }
-                else if(reading.equalsIgnoreCase("autores")){
+                else if(reading.equals("autores")){
                     authorList.append(line);
                 }
-                else if(reading.equalsIgnoreCase("resumen")){
+                else if(reading.equals("resumen")){
                     if(body == null) {
                         body = line;
                     }
@@ -74,95 +71,77 @@ public class Database {
         return new Summary(title, body, authors, keywords);
     }
     
-    public static Summary readAllSummaries(Reader summaryReader) throws IOException{
-        String title = null;
-        String body = null;
-        String[] authors;
-        String[] keywords;
-        List<String> authorList = new List<>();
-        List<String> keyList = new List<>();
-        
-        try(BufferedReader reader=new BufferedReader(summaryReader)){
+    public static List<Summary> loadState(File file) throws IOException{
+        List<Summary> summaryList = new List<>();
+        try(BufferedReader reader = new BufferedReader(new FileReader(file))){
+            String title = null;
+            String body = null;
+            List<String> authorList = new List<>();
+            List<String> keywordList = new List<>();     
             String line;
-            String reading = "title";
             while((line = reader.readLine()) != null){
                 line = line.strip();
-                while(!line.equalsIgnoreCase("summary")){
-                    if("summary".equalsIgnoreCase(line)){
-                        reading="summary";
+                if(line.startsWith("SUMMARY_TITLE ")) {
+                    title = line.replaceFirst("SUMMARY_TITLE\\s+", "");
+                }
+                else if(line.startsWith("SUMMARY_AUTHOR ")) {
+                    authorList.append(line.replaceFirst("SUMMARY_AUTHOR\\s+", ""));
+                }
+                else if(line.startsWith("SUMMARY_KEYWORD ")) {
+                    keywordList.append(line.replaceFirst("SUMMARY_KEYWORD\\s+", ""));
+                }
+                else if(line.startsWith("SUMMARY_LINE ")) {
+                    line = line.replaceFirst("SUMMARY_LINE\\s+", "");
+                    if(body == null) {
+                        body = line;
                     }
-                    else if("autores".equalsIgnoreCase(line)){
-                        reading = "autores";
+                    else {
+                        body += "\n" + line;
                     }
-                    else if("resumen".equalsIgnoreCase(line)){
-                        reading = "resumen";
+                }
+                else if(line.startsWith("SUMMARY_END")) {
+                    int i;
+                    /* Crear arreglo de autores */
+                    i = 0;
+                    String[] authors = new String[authorList.getSize()];
+                    for(ListNode<String> node = authorList.getFirst(); node != null; node = node.getNext()) {
+                        authors[i++] = node.getValue();
                     }
-                    else if(line.equalsIgnoreCase("palabras claves")){
-                        reading="palabras claves";
+                    /* Crear arreglo de palabras clave */
+                    i = 0;
+                    String[] keywords = new String[keywordList.getSize()];
+                    for(ListNode<String> node = keywordList.getFirst(); node != null; node = node.getNext()) {
+                        keywords[i++] = node.getValue();
                     }
-                    else if(reading.equalsIgnoreCase("palabras claves")){
-                        keyList.append(line);
-                    }
-                    else if(reading.equalsIgnoreCase("title")){
-                        if(title == null) {
-                            title = line;
-                        }
-                        else {
-                            title += " " + line;
-                        }
-                    }
-                    else if(reading.equalsIgnoreCase("autores")){
-                        authorList.append(line);
-                    }
-                    else if(reading.equalsIgnoreCase("resumen")){
-                        if(body == null) {
-                            body = line;
-                        }
-                        else {
-                            body += "\n" + line;
-                        }
-                    }
+                    /* Agregar objeto de resumen */
+                    summaryList.append(new Summary(title, body, authors, keywords));
+                    /* Resetear variables */
+                    title = null;
+                    body = null;
+                    authorList = new List<>();
+                    keywordList = new List<>();  
                 }
             }
         }
-                
-        
-        authors = new String[authorList.getSize()];
-        int i = 0;
-        for(ListNode<String> node = authorList.getFirst(); node != null; node = node.getNext()) {
-            authors[i++] = node.getValue();
-        }
-        
-        keywords = new String[keyList.getSize()];
-        int j = 0;
-        for(ListNode<String> node = keyList.getFirst(); node != null; node = node.getNext()) {
-            keywords[j++] = node.getValue();
-        }
-        
-        return new Summary(title, body, authors, keywords);
+        return summaryList;
     }
-    
-    public static void saveSummaries(Summary summary, File fileSave) throws IOException{
-        saveSummary(summary, new FileWriter(fileSave));
-    }
-    
-    private static void saveSummary(Summary summary, Writer baseWriter) throws IOException{
-        try(BufferedWriter writeSum= new BufferedWriter(baseWriter)){
-            writeSum.write("Summary");
-            writeSum.write("title:"+summary.getTitle());
-            writeSum.write("autores");
-            for (int i = 0; i < summary.getAuthors().length; i++) {
-                writeSum.write(summary.getAuthors()[i]+"\n");
+        
+    public static void saveState(List<Summary> summaries, File file) throws IOException {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
+            for(ListNode<Summary> node = summaries.getFirst(); node != null; node = node.getNext()) {
+                Summary summary = node.getValue();
+                writer.write(String.format("SUMMARY_TITLE %s\n", summary.getTitle()));
+                for(String author : summary.getAuthors()) {
+                    writer.write(String.format("SUMMARY_AUTHOR %s\n", author));
+                }
+                for(String keyword : summary.getKeywords()) {
+                    writer.write(String.format("SUMMARY_KEYWORD %s\n", keyword));
+                }
+                for(String line : summary.getBody().split("\n")) {
+                    writer.write(String.format("SUMMARY_LINE %s\n", line));
+                }
+                writer.write("SUMMARY_END\n");
             }
-            writeSum.write("resumen:");
-            writeSum.write(summary.getBody());
-            writeSum.write("palabras clave");
-            for (int i = 0; i < summary.getKeywords().length; i++) {
-                writeSum.write(summary.getKeywords()[i]+"\n");
-            }
-            
         }
-    }
-    
-
+    }   
 }

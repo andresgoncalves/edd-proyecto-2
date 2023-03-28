@@ -20,7 +20,7 @@ public class Summary {
         this.keywords = keywords;
         this.keywordAppearances = new int[keywords.length];
         for(int i = 0; i < keywords.length; i++) {
-            keywordAppearances[i] = (int) Pattern.compile("(^|\\s)\\s*" + Pattern.quote(keywords[i]) + "\\s*(\\s|$)").matcher(body).results().count();
+            keywordAppearances[i] = (int) Pattern.compile("\\b" + Pattern.quote(keywords[i].toLowerCase()) + "\\b").matcher(body.toLowerCase()).results().count();
         }
     }
 

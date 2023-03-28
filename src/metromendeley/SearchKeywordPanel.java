@@ -14,12 +14,12 @@ public class SearchKeywordPanel extends javax.swing.JPanel {
     }
     
     public void setSummaries(String keyword){
-        StringBuilder builder = new StringBuilder();
+        String text = "";
         List<Summary> summaries = App.getInstance().getSummariesByKeyword(keyword);
         for(ListNode<Summary> node = summaries.getFirst(); node != null; node = node.getNext()) {
-            builder.append(node.getValue().getTitle()).append("\n");
+            text += node.getValue().getTitle() + "\n";
         }
-        relatedSummariesTextArea.setText(builder.toString());
+        relatedSummariesTextArea.setText(text);
     }
 
     /**
@@ -32,22 +32,28 @@ public class SearchKeywordPanel extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        centerLayout = new javax.swing.JPanel();
         keywordLabel = new javax.swing.JLabel();
         keywordTextField = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
         relatedSummariesLabel = new javax.swing.JLabel();
         relatedSummariesScrollPane = new javax.swing.JScrollPane();
         relatedSummariesTextArea = new javax.swing.JTextArea();
+        bottomPanel = new javax.swing.JPanel();
+        backButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(204, 255, 204));
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(40, 40, 40, 40));
-        setLayout(new java.awt.GridBagLayout());
+        setLayout(new java.awt.BorderLayout());
+
+        centerLayout.setBorder(javax.swing.BorderFactory.createEmptyBorder(40, 40, 20, 40));
+        centerLayout.setLayout(new java.awt.GridBagLayout());
 
         keywordLabel.setForeground(new java.awt.Color(0, 0, 0));
         keywordLabel.setText("Introduzca la palabra clave:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
-        add(keywordLabel, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        centerLayout.add(keywordLabel, gridBagConstraints);
 
         keywordTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -60,7 +66,7 @@ public class SearchKeywordPanel extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 10);
-        add(keywordTextField, gridBagConstraints);
+        centerLayout.add(keywordTextField, gridBagConstraints);
 
         searchButton.setText("Buscar");
         searchButton.addActionListener(new java.awt.event.ActionListener() {
@@ -70,14 +76,16 @@ public class SearchKeywordPanel extends javax.swing.JPanel {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
-        add(searchButton, gridBagConstraints);
+        centerLayout.add(searchButton, gridBagConstraints);
 
         relatedSummariesLabel.setForeground(new java.awt.Color(0, 0, 0));
-        relatedSummariesLabel.setText("Investigaciones relacionadas");
+        relatedSummariesLabel.setText("Investigaciones relacionadas:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 10, 0);
-        add(relatedSummariesLabel, gridBagConstraints);
+        centerLayout.add(relatedSummariesLabel, gridBagConstraints);
 
         relatedSummariesTextArea.setColumns(20);
         relatedSummariesTextArea.setRows(5);
@@ -90,7 +98,25 @@ public class SearchKeywordPanel extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        add(relatedSummariesScrollPane, gridBagConstraints);
+        centerLayout.add(relatedSummariesScrollPane, gridBagConstraints);
+
+        add(centerLayout, java.awt.BorderLayout.CENTER);
+
+        bottomPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        bottomPanel.setLayout(new java.awt.GridBagLayout());
+
+        backButton.setText("Volver");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.weightx = 1.0;
+        bottomPanel.add(backButton, gridBagConstraints);
+
+        add(bottomPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
     private void keywordTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keywordTextFieldActionPerformed
@@ -101,7 +127,14 @@ public class SearchKeywordPanel extends javax.swing.JPanel {
         setSummaries(keywordTextField.getText());
     }//GEN-LAST:event_searchButtonActionPerformed
 
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        App.getInstance().showMenu();
+    }//GEN-LAST:event_backButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backButton;
+    private javax.swing.JPanel bottomPanel;
+    private javax.swing.JPanel centerLayout;
     private javax.swing.JLabel keywordLabel;
     private javax.swing.JTextField keywordTextField;
     private javax.swing.JLabel relatedSummariesLabel;
