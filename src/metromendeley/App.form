@@ -39,6 +39,13 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
       <SubComponents>
+        <Component class="metromendeley.WelcomePanel" name="welcomePanel">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+              <CardConstraints cardName="card6"/>
+            </Constraint>
+          </Constraints>
+        </Component>
         <Component class="metromendeley.OptionsPanel" name="optionsPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
@@ -46,21 +53,21 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="metromendeley.SearchAuthor" name="searchAuthor">
+        <Component class="metromendeley.SearchAuthorPanel" name="searchAuthorPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
               <CardConstraints cardName="authorPanel"/>
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="metromendeley.SearchKeywordPanel" name="searchPanel">
+        <Component class="metromendeley.SearchKeywordPanel" name="searchKeywordPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
               <CardConstraints cardName="searchKey"/>
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="metromendeley.AnalizeSummary" name="analizeSummaryPanel">
+        <Component class="metromendeley.AnalyzeSummaryPanel" name="analyzeSummaryPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
               <CardConstraints cardName="analizePanel"/>

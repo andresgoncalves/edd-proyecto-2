@@ -1,31 +1,25 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package metromendeley;
-
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author USUARIO
  */
-public class SearchAuthor extends javax.swing.JPanel {
+public class SearchAuthorPanel extends javax.swing.JPanel {
     
     /**
      * Creates new form SearchAuthor
      */
-    public SearchAuthor() {
+    public SearchAuthorPanel() {
         initComponents();
     }
     
     public void setSummaries(String author){
-        StringBuilder builder = new StringBuilder();
+        String text = "";
         List<Summary> summaries = App.getInstance().getSummariesByAuthor(author);
         for(ListNode<Summary> node = summaries.getFirst(); node != null; node = node.getNext()) {
-            builder.append(node.getValue().getTitle()).append("\n");
+            text += node.getValue().getTitle() + "\n";
         }
-        relatedSummariesTextArea.setText(builder.toString());
+        relatedSummariesTextArea.setText(text);
     }
     
     /**
@@ -38,29 +32,37 @@ public class SearchAuthor extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        centerPanel = new javax.swing.JPanel();
         authorLabel = new javax.swing.JLabel();
         relatedSummariesLabel = new javax.swing.JLabel();
         relatedSummariesScrollPane = new javax.swing.JScrollPane();
         relatedSummariesTextArea = new javax.swing.JTextArea();
         authorTextField = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
+        bottomPanel = new javax.swing.JPanel();
+        backButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(204, 255, 204));
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(40, 40, 40, 40));
-        setLayout(new java.awt.GridBagLayout());
+        setLayout(new java.awt.BorderLayout());
+
+        centerPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(40, 40, 20, 40));
+        centerPanel.setLayout(new java.awt.GridBagLayout());
 
         authorLabel.setForeground(new java.awt.Color(0, 0, 0));
-        authorLabel.setText("Introduzca la palabra clave:");
+        authorLabel.setText("Introduzca el autor:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
-        add(authorLabel, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        centerPanel.add(authorLabel, gridBagConstraints);
 
         relatedSummariesLabel.setForeground(new java.awt.Color(0, 0, 0));
-        relatedSummariesLabel.setText("Investigaciones relacionadas");
+        relatedSummariesLabel.setText("Investigaciones relacionadas:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 10, 0);
-        add(relatedSummariesLabel, gridBagConstraints);
+        centerPanel.add(relatedSummariesLabel, gridBagConstraints);
 
         relatedSummariesTextArea.setColumns(20);
         relatedSummariesTextArea.setRows(5);
@@ -73,7 +75,7 @@ public class SearchAuthor extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        add(relatedSummariesScrollPane, gridBagConstraints);
+        centerPanel.add(relatedSummariesScrollPane, gridBagConstraints);
 
         authorTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,11 +84,10 @@ public class SearchAuthor extends javax.swing.JPanel {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 10);
-        add(authorTextField, gridBagConstraints);
+        centerPanel.add(authorTextField, gridBagConstraints);
 
         searchButton.setText("Buscar");
         searchButton.addActionListener(new java.awt.event.ActionListener() {
@@ -96,7 +97,25 @@ public class SearchAuthor extends javax.swing.JPanel {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
-        add(searchButton, gridBagConstraints);
+        centerPanel.add(searchButton, gridBagConstraints);
+
+        add(centerPanel, java.awt.BorderLayout.CENTER);
+
+        bottomPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        bottomPanel.setLayout(new java.awt.GridBagLayout());
+
+        backButton.setText("Volver");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.weightx = 1.0;
+        bottomPanel.add(backButton, gridBagConstraints);
+
+        add(bottomPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
@@ -107,10 +126,17 @@ public class SearchAuthor extends javax.swing.JPanel {
         setSummaries(authorTextField.getText());
     }//GEN-LAST:event_authorTextFieldActionPerformed
 
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        App.getInstance().showMenu();
+    }//GEN-LAST:event_backButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel authorLabel;
     private javax.swing.JTextField authorTextField;
+    private javax.swing.JButton backButton;
+    private javax.swing.JPanel bottomPanel;
+    private javax.swing.JPanel centerPanel;
     private javax.swing.JLabel relatedSummariesLabel;
     private javax.swing.JScrollPane relatedSummariesScrollPane;
     private javax.swing.JTextArea relatedSummariesTextArea;

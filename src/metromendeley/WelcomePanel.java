@@ -11,13 +11,12 @@ import javax.swing.JOptionPane;
  * @author USUARIO
  */
 public class WelcomePanel extends javax.swing.JPanel {
-    private File selectedFile;
+
     /**
      * Creates new form textPanel
      */
     public WelcomePanel() {
         initComponents();
-        loadTxt.setEnabled(false);
     }
 
     /**
@@ -30,95 +29,89 @@ public class WelcomePanel extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        welcome = new javax.swing.JLabel();
-        chargeTxt = new javax.swing.JButton();
-        loadTxt = new javax.swing.JButton();
-        ejecucionAnterior = new javax.swing.JButton();
+        fileChooser = new javax.swing.JFileChooser();
+        titleLabel = new javax.swing.JLabel();
+        createDatabaseButton = new javax.swing.JButton();
+        loadDatabaseButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(204, 255, 204));
         setLayout(new java.awt.GridBagLayout());
 
-        welcome.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        welcome.setForeground(new java.awt.Color(0, 0, 0));
-        welcome.setText("BIENVENIDOS A METROMENDELEY");
+        titleLabel.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        titleLabel.setForeground(new java.awt.Color(0, 0, 0));
+        titleLabel.setText("Bienvenidos a Metromendeley");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        add(welcome, gridBagConstraints);
+        add(titleLabel, gridBagConstraints);
 
-        chargeTxt.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        chargeTxt.setText("Seleccionar nuevo resumen");
-        chargeTxt.setAlignmentY(0.0F);
-        chargeTxt.addActionListener(new java.awt.event.ActionListener() {
+        createDatabaseButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        createDatabaseButton.setText("Crear base de datos");
+        createDatabaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chargeTxtActionPerformed(evt);
+                createDatabaseButtonActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        add(chargeTxt, gridBagConstraints);
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 244;
+        gridBagConstraints.insets = new java.awt.Insets(10, 100, 10, 100);
+        add(createDatabaseButton, gridBagConstraints);
 
-        loadTxt.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        loadTxt.setText("Cargar Resumen");
-        loadTxt.addActionListener(new java.awt.event.ActionListener() {
+        loadDatabaseButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        loadDatabaseButton.setText("Cargar base de datos");
+        loadDatabaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loadTxtActionPerformed(evt);
+                loadDatabaseButtonActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        add(loadTxt, gridBagConstraints);
-
-        ejecucionAnterior.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        ejecucionAnterior.setText("Cargar Resumenes anteriores");
-        ejecucionAnterior.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ejecucionAnteriorActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        add(ejecucionAnterior, gridBagConstraints);
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 207;
+        gridBagConstraints.insets = new java.awt.Insets(10, 100, 10, 100);
+        add(loadDatabaseButton, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void chargeTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chargeTxtActionPerformed
-       JFileChooser fileChooser= new JFileChooser();
-       if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            selectedFile = fileChooser.getSelectedFile();
-            loadTxt.setEnabled(true);
-       }
-    }//GEN-LAST:event_chargeTxtActionPerformed
+    private void loadDatabaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadDatabaseButtonActionPerformed
+        if(fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            try{
+                List<Summary> summaries = Database.loadState(file);
+                for(ListNode<Summary> node = summaries.getFirst(); node != null; node = node.getNext()) {
+                    App.getInstance().registerSummary(node.getValue());
+                }
+                App.getInstance().setDatabaseFile(file);
+                JOptionPane.showMessageDialog(null, "Carga Exitosa");
+                App.getInstance().showMenu();
+            } catch(DuplicateKeyException ex){
+                JOptionPane.showMessageDialog(this, "Se encontraron resúmenes repetidos");
+            } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(this, "No se encontró el archivo", "Archivo no encontrado", JOptionPane.ERROR_MESSAGE);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "No se pudo leer el archivo", "Error de lectura", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex, "Error de formato", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_loadDatabaseButtonActionPerformed
 
-    private void loadTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadTxtActionPerformed
-        try{
-            Summary summary = Database.readSummaryTxt(selectedFile);
-            App.getInstance().registerSummary(summary);
-            JOptionPane.showMessageDialog(null, "Carga Exitosa");
-        } catch(DuplicateKeyException ex){
-            JOptionPane.showMessageDialog(this, "Este resumen ya fue cargado");
-        } catch (FileNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "No se encontrï¿½ el archivo", "Archivo no encontrado", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "No se pudo leer el archivo", "Error de lectura", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex, "Error de formato", JOptionPane.ERROR_MESSAGE);
-        } 
-    }//GEN-LAST:event_loadTxtActionPerformed
-
-    private void ejecucionAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ejecucionAnteriorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ejecucionAnteriorActionPerformed
+    private void createDatabaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createDatabaseButtonActionPerformed
+        fileChooser.setSelectedFile(new File("metromendeley-db.txt"));
+        if(fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            App.getInstance().setDatabaseFile(file);
+            App.getInstance().showMenu();
+        }
+    }//GEN-LAST:event_createDatabaseButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton chargeTxt;
-    private javax.swing.JButton ejecucionAnterior;
-    private javax.swing.JButton loadTxt;
-    private javax.swing.JLabel welcome;
+    private javax.swing.JButton createDatabaseButton;
+    private javax.swing.JFileChooser fileChooser;
+    private javax.swing.JButton loadDatabaseButton;
+    private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,6 +1,11 @@
 package metromendeley;
 
 import java.awt.CardLayout;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,6 +20,8 @@ public class App extends javax.swing.JFrame {
     private final HashTable<List<Summary>> summariesByAuthor = new HashTable<>(HASH_TABLE_SIZE);
     private final HashTable<List<Summary>> summariesByKeyword = new HashTable<>(HASH_TABLE_SIZE);
     
+    private File databaseFile = null;
+    
     /**
      * Creates new form App
      */
@@ -26,9 +33,10 @@ public class App extends javax.swing.JFrame {
         /* Agregar resumen a la lista */
         summaries.insert(summary);
         /* Agregar resumen a la tabla principal */
-        summariesByTitle.set(summary.getTitle(), summary);
+        summariesByTitle.set(summary.getTitle().toLowerCase(), summary);
         /* Agregar resumen a la tabla indexada por autores */
         for(String author : summary.getAuthors()) {
+            author = author.toLowerCase();
             List<Summary> authorList = summariesByAuthor.get(author);
             if(authorList == null) {
                 authorList = new List<>();
@@ -38,6 +46,7 @@ public class App extends javax.swing.JFrame {
         }
         /* Agregar resumen a la tabla indexada por palabras clave */
         for(String keyword : summary.getKeywords()) {
+            keyword = keyword.toLowerCase();
             List<Summary> keywordList = summariesByKeyword.get(keyword);
             if(keywordList == null) {
                 keywordList = new List<>();
@@ -46,22 +55,40 @@ public class App extends javax.swing.JFrame {
             keywordList.append(summary);
         }
     }
+    
+    public void saveState() {
+        if(databaseFile != null) {
+            try {
+                Database.saveState(summaries, databaseFile);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "No se pudo actualizar la base de datos", "Error de escritura", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    public File getDatabaseFile() {
+        return databaseFile;
+    }
+
+    public void setDatabaseFile(File databaseFile) {
+        this.databaseFile = databaseFile;
+    }
 
     public List<Summary> getSummaries() {
         return summaries;
     }
 
     public Summary getSummaryByTitle(String title) {
-        return summariesByTitle.get(title);
+        return summariesByTitle.get(title.toLowerCase());
     }
     
     public List<Summary> getSummariesByAuthor(String author) {
-        List<Summary> summaries = summariesByAuthor.get(author);
+        List<Summary> summaries = summariesByAuthor.get(author.toLowerCase());
         return summaries != null ? summaries : new List<>();
     }
     
     public List<Summary> getSummariesByKeyword(String keyword) {
-        List<Summary> summaries =  summariesByKeyword.get(keyword);
+        List<Summary> summaries =  summariesByKeyword.get(keyword.toLowerCase());
         return summaries != null ? summaries : new List<>();
     }
        
@@ -69,12 +96,12 @@ public class App extends javax.swing.JFrame {
         ((CardLayout) mainPanel.getLayout()).show(mainPanel, name);
     }
     
-    public void showOptions(){
+    public void showMenu(){
         show("optionsPanel");
     }
     
-    public void showAnalize(){
-        analizeSummaryPanel.updateSummaries(summaries);
+    public void showAnalyze(){
+        analyzeSummaryPanel.updateSummaries(summaries);
         show("analizePanel");
     }
     
@@ -95,10 +122,11 @@ public class App extends javax.swing.JFrame {
     private void initComponents() {
 
         mainPanel = new javax.swing.JPanel();
+        welcomePanel = new metromendeley.WelcomePanel();
         optionsPanel = new metromendeley.OptionsPanel();
-        searchAuthor = new metromendeley.SearchAuthor();
-        searchPanel = new metromendeley.SearchKeywordPanel();
-        analizeSummaryPanel = new metromendeley.AnalizeSummary();
+        searchAuthorPanel = new metromendeley.SearchAuthorPanel();
+        searchKeywordPanel = new metromendeley.SearchKeywordPanel();
+        analyzeSummaryPanel = new metromendeley.AnalyzeSummaryPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MetroMendeley");
@@ -106,10 +134,11 @@ public class App extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(800, 600));
 
         mainPanel.setLayout(new java.awt.CardLayout());
+        mainPanel.add(welcomePanel, "card6");
         mainPanel.add(optionsPanel, "optionsPanel");
-        mainPanel.add(searchAuthor, "authorPanel");
-        mainPanel.add(searchPanel, "searchKey");
-        mainPanel.add(analizeSummaryPanel, "analizePanel");
+        mainPanel.add(searchAuthorPanel, "authorPanel");
+        mainPanel.add(searchKeywordPanel, "searchKey");
+        mainPanel.add(analyzeSummaryPanel, "analizePanel");
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
@@ -145,11 +174,12 @@ public class App extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private metromendeley.AnalizeSummary analizeSummaryPanel;
+    private metromendeley.AnalyzeSummaryPanel analyzeSummaryPanel;
     private javax.swing.JPanel mainPanel;
     private metromendeley.OptionsPanel optionsPanel;
-    private metromendeley.SearchAuthor searchAuthor;
-    private metromendeley.SearchKeywordPanel searchPanel;
+    private metromendeley.SearchAuthorPanel searchAuthorPanel;
+    private metromendeley.SearchKeywordPanel searchKeywordPanel;
+    private metromendeley.WelcomePanel welcomePanel;
     // End of variables declaration//GEN-END:variables
 
 }
