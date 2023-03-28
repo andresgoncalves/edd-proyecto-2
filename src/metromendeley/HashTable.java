@@ -42,6 +42,12 @@ public class HashTable<T> {
     }
     
     private int hash(String key) {
-        return key.hashCode();
+        int factor = 1;
+        int hash = 0;
+        for(int i = 0; i < key.length(); i++) {
+            hash += key.charAt(i) * factor;
+            factor = factor * 31;
+        }
+        return hash;
     }
 }
