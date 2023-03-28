@@ -39,6 +39,7 @@ public class Database {
                     for(int i = 0; i < keywords.length; i++) {
                         keywords[i] = keywords[i].strip();
                     }
+                    break;
                 }
                 else if(reading.equals("title")){
                     if(title == null) {
@@ -66,6 +67,10 @@ public class Database {
         int i = 0;
         for(ListNode<String> node = authorList.getFirst(); node != null; node = node.getNext()) {
             authors[i++] = node.getValue();
+        }
+        
+        if(title == null || body == null) {
+            throw new RuntimeException("Error de formato");
         }
         
         return new Summary(title, body, authors, keywords);

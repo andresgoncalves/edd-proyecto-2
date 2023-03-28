@@ -144,13 +144,13 @@ public class OptionsPanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Carga Exitosa");
                 App.getInstance().saveState();
             } catch(DuplicateKeyException ex){
-                JOptionPane.showMessageDialog(this, "Este resumen ya fue cargado");
+                JOptionPane.showMessageDialog(this, "Este resumen ya fue cargado", "Resumen duplicado", JOptionPane.WARNING_MESSAGE);
             } catch (FileNotFoundException ex) {
-                JOptionPane.showMessageDialog(this, "No se encontró el archivo", "Archivo no encontrado", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "No se encontró el archivo", "Archivo no encontrado", JOptionPane.WARNING_MESSAGE);
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "No se pudo leer el archivo", "Error de lectura", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, ex, "Error de formato", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "El archivo no es un archivo de resumen", "Error de formato", JOptionPane.WARNING_MESSAGE);
             } 
         }
     }//GEN-LAST:event_loadSummaryButtonActionPerformed
